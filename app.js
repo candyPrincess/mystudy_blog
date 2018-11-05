@@ -64,11 +64,24 @@ app.post("/register",(req,res) => {
             if(result.affectedRows !== 1) res.status(402).send({status:402,msg:"注册新用户失败,请重试"})
             res.send({status:200,msg:"ok"})
         })
-    })
-    
-    
+    })   
+})
 
-    
+
+//登录用户
+app.post("/login",(req,res) => {
+    // 获取到用户登录时提交的信息
+    const user = req.body
+    console.log(user);
+    //查询用户名和密码与数据表是否一致
+    const sql = "select * from users where username = ? and password = ?"
+    conn.query(sql,[user.username,user.password],(err,result) => {
+        if(err) return res.status(500).send({status:500,msg:err.message})
+        // console.log(result);查询数据只要有一条数据,查询成功,说明重复用户名或者密码.不为1.说明查询失败
+        if(result.length !== 1) return res.status(501).send({status:501,msg:"用户查询失败"})
+        res.send({status:200,msg:"用户名匹配,登录成功"})
+    })
+
 })
 
 

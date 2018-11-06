@@ -12,7 +12,7 @@ const handleGetLogin = (req,res) => {
 }
 const handlePostRegister = (req,res) => {
     const user = req.body
-    console.log(user);
+    // console.log(user);
      //判断昵称是否为空
     if(user.username.trim().length === 0 || user.password.trim().length === 0 || user.nickname.trim().length === 0) return res.status(501).send({status:501,msg:"请填写完整用户信息,请重试",data:null})
     
@@ -38,7 +38,7 @@ const handlePostRegister = (req,res) => {
 const handlePostLogin = (req,res) => {
     // 获取到用户登录时提交的信息
     const user = req.body
-    console.log(user);
+    // console.log(user);
     //查询用户名和密码与数据表是否一致
     const sql = "select * from users where username = ? and password = ?"
     conn.query(sql,[user.username,user.password],(err,result) => {
@@ -46,9 +46,23 @@ const handlePostLogin = (req,res) => {
         if(err) return res.status(500).send({status:500,msg:err.message})
         // console.log(result);查询数据只要有一条数据,查询成功,说明重复用户名或者密码.不为1.说明查询失败
         if(result.length !== 1) return res.status(501).send({status:501,msg:"用户查询失败"})
+        //如果登录成功,需要先储存登录的信息到session里面
+        // console.log(req.session)
+        // console.log(result[0]);
+        //将user和isLogin属性挂在req.session上
+        req.session.user = result[0]
+        req.session.isLogin = true 
         res.send({status:200,msg:"用户名匹配,登录成功"})
     })
 
+}
+
+//注销模块
+const handleGetLogout = (req,res) => {
+    //注销session,req.session.destory
+    req.session.destroy(function(){
+        res.redirect("/")
+    })
 }
 
 
@@ -57,5 +71,6 @@ module.exports = {
     handleGetRegister,
     handleGetLogin,
     handlePostRegister,
-    handlePostLogin
+    handlePostLogin,
+    handleGetLogout
 }

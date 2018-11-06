@@ -19,6 +19,9 @@ router.post("/register",control.handlePostRegister)
 //登录用户
 router.post("/login",control.handlePostLogin)
 
+//注销用户
+router.get("/logout",control.handleGetLogout)
+
 
 module.exports = router
 

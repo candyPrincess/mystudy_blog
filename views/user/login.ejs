@@ -56,17 +56,15 @@
           type: 'POST',
           dataType: 'json',
           success: function (result) {
-            console.log(result)
+            // console.log(result)
             if(result.status !== 200) {
               //登录失败
               return alert(result.msg)
             }
             location.href = "/";
             
-          },
-          error:function(err){
-            console.log(err.message)
           }
+       
           
         })
       })

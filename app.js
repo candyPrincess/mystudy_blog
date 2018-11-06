@@ -6,6 +6,15 @@ const bodyParser = require("body-parser")
 // 对body-parser进行配置,才会有req.body这个数据对象
 app.use( bodyParser.urlencoded({extended: true}) )
 
+// 引入session模块
+const session = require("express-session")
+//使用这个中间件,只要注册了这个中间件,就有req这个对象,就一定能访问req.session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+  }))
+
 
 // 配置ejs模板引擎
 app.set("view engine","ejs")

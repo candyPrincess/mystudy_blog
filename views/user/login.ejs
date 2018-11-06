@@ -63,7 +63,11 @@
             }
             location.href = "/";
             
+          },
+          error:function(err){
+            console.log(err.message)
           }
+          
         })
       })
     })

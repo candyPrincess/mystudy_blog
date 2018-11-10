@@ -1,0 +1,15 @@
+<%- include("../common/header.ejs") %>
+
+<div class="container">
+    <h1 class="text-center">
+        <%= result.title %>
+        <% if(isLogin && user.id === result.author_id) {%>
+            <a href="/article/edit/<%= result.id%>" class="btn btn-info pull-right">编辑</a>
+        <% } %>     
+    </h1>
+
+    <hr>
+    <div><%- result.content %></div>
+</div>
+
+<%- include("../common/footer.ejs") %>
